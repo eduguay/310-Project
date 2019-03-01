@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /*
- *  Google Custom Search API Key: AIzaSyBKL46dI7C9lgxkPQXK63DNdZeK_8Tw06k
+ *  Google Custom Search API Key: 
  */
 
 
