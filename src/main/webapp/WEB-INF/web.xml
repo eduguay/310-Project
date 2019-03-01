@@ -16,6 +16,18 @@
   	<description></description>
   	<servlet-class>RecipeModel</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>SearchController</servlet-name>
+  	<display-name>SearchController</display-name>
+  	<description></description>
+  	<servlet-class>SearchController</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>RecipeModel1</servlet-name>
+  	<display-name>RecipeModel1</display-name>
+  	<description></description>
+  	<servlet-class>RecipeModel1</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>RestaurantModel</servlet-name>
   	<url-pattern>/RestaurantModel</url-pattern>
@@ -23,5 +35,13 @@
   <servlet-mapping>
   	<servlet-name>RecipeModel</servlet-name>
   	<url-pattern>/RecipeModel</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SearchController</servlet-name>
+  	<url-pattern>/SearchController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>RecipeModel1</servlet-name>
+  	<url-pattern>/RecipeModel1</url-pattern>
   </servlet-mapping>
 </web-app>
