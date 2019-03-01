@@ -1,0 +1,29 @@
+.index-header {
+  margin-top: 15vh;
+  font-size: 5rem;
+  margin-bottom: 10vh;
+}
+
+.food-text {
+  width: 30%;
+  margin-left: 35%;
+}
+
+.search-text {
+  width: 10%;
+  margin-left: 5%;
+}
+
+.search-button {
+  font-size: 1.5rem;
+  width: 150px;
+  cursor: pointer;
+  background: orange;
+  border: none;
+  text-decoration: none;
+}
+
+.search-button:active,
+.search-button:focus {
+  outline-style: none;
+}
