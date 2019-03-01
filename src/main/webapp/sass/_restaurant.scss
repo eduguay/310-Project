@@ -1,0 +1,27 @@
+.restaurant-detail {
+  width: 60%;
+
+  .restaurant-title {
+    margin-top: 50px;
+    font-size: 3.5rem;
+  }
+
+  .restaurant-image {
+    width: 70%;
+  }
+
+  p {
+    margin: 10px 0;
+  }
+
+  .ingredients {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .ingredient-item {
+      flex: 0 0 33%;
+      margin: 5px 0;
+    }
+  }
+}
