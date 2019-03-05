@@ -60,7 +60,7 @@ public class RecipeModel1 extends HttpServlet {
 
 		//splits json string
 		String[] parts = recipe_string.split(",");
-		
+
 		//grab recipe name, JSON has it written as 'label'
 		String recipe_name = ""; 
 		for (int i = 0; i < parts.length; i++) {
@@ -70,7 +70,7 @@ public class RecipeModel1 extends HttpServlet {
 				recipeNameList.add(recipe_name);
 			}
 		}
-		
+
 		//grabs times from json object
 		double cookTime = 0;
 		double prepTime = 0;
@@ -91,14 +91,14 @@ public class RecipeModel1 extends HttpServlet {
 			times[1] = recipeTimesList.get(i+1);  //prepTime
 			recipeList.put(recipeNameList.get(i), times);
 		}
-		
+
 		Gson recipeListGson = new Gson(); 
 		String recipeListGsonString = recipeListGson.toJson(recipeList); 
-		
+
 		//System.out.println(recipeListGsonString);
 
-		//		request.setAttribute("recipeListGsonString", recipeListGsonString);
-		//		RequestDispatcher view1 = request.getRequestDispatcher("results.html");
-		//		view1.forward(request, response);
+		request.setAttribute("recipeListGsonString", recipeListGsonString);
+		RequestDispatcher view1 = request.getRequestDispatcher("results.html");
+		view1.forward(request, response);
 	}
 }
