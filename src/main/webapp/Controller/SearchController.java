@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /*
  *  Google Custom Search API Key: 
@@ -37,6 +38,24 @@ public class SearchController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// Creates a session object if it is not already created
+		HttpSession session = requent.getSession(true);
+		
+		String food_item;
+		String[] favorites;
+		String[] do_not_show;
+		String[] to_try;
+		
+		// Need to check if session variable exists
+		session.
+		session.setAttribute("favorites", favorites);
+		session.setAttribute("do_not_show", do_not_show)
+		session.setAttribute("to_try", to_try);
+		
+		
+		
+		
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
