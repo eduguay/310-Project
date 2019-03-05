@@ -96,10 +96,11 @@ public class RecipeModel1 extends HttpServlet {
 		Gson recipeListGson = new Gson(); 
 		String recipeListGsonString = recipeListGson.toJson(recipeList); 
 
-		//System.out.println(recipeListGsonString);
-
-		request.setAttribute("recipeListGsonString", recipeListGsonString);
-		RequestDispatcher view1 = request.getRequestDispatcher("results.html");
-		view1.forward(request, response);
+//		request.setAttribute("recipeListGsonString", recipeListGsonString);
+//		RequestDispatcher view1 = request.getRequestDispatcher("results.html");
+//		view1.forward(request, response);
+		
+		PrintWriter pw = response.getWriter();
+		pw.print(recipeListGsonString);
 	}
 }
