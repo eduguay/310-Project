@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,21 +21,16 @@ import javax.servlet.http.HttpServletResponse;
 public class RestaurantModel extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	
-	
+	// Building blocks of the API string
 	private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
-	
 	private static final String TYPE_SEARCH = "/search";
-	
 	private static final String OUT_JSON = "/json";
-	
-	
-	//Tommy Trojan Lats and Longs
-	private static final lat = "34.021217";
-	private static final lng = "-118.287093";
-	
-	// Places API Key
+		//Tommy Trojan LATs and Longs
+	private static final String LAT = "34.021217";
+	private static final String LNG = "-118.287093";
+		// Places API Key
 	private static final String API_KEY = "AIzaSyBKL46dI7C9lgxkPQXK63DNdZeK_8Tw06k";
+
 	
 	
 	
@@ -50,11 +46,11 @@ public class RestaurantModel extends HttpServlet {
 			sb.append("?sensor=false");
 			sb.append("&key=" + API_KEY);
 			sb.append("&keyword=" + URLEncoder.encode(keyword, "utf8"));
-			sb.append("&location=" + String.valueOf(lat) + "," + String.valueOf(lng));
+			sb.append("&location=" + String.valueOf(LAT) + "," + String.valueOf(LNG));
 			sb.append("$radius=" + String.valueOf(radius));
 			
 			URL url = new URL(sb.toString());
-			conn (HttpURLConnection) url.openConnection();
+			conn = (HttpURLConnection) url.openConnection();
 			InputStreamReader in new InputStreamReader(conn.getInputStream());
 			
 			int read;
@@ -95,7 +91,7 @@ public class RestaurantModel extends HttpServlet {
 		
 	}
 	
-	public static PLace details(String reference) {
+	public static Place details(String reference) {
 		HttpURLConnection conn = null;
 		StringBuilder jsonResluts = new StringBuilder();
 		try {
@@ -154,11 +150,20 @@ public class RestaurantModel extends HttpServlet {
      */
     public RestaurantModel() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    	String query = "chicken";
+    	
+    	ArrayList<Place> restaurantList = search(query, 10);
+    	
+    	
+    	Gson restaurantListGson = new Gson();
+    	String restaurantListGsonString = restaurantListGeson.toJson(restaurantList);
+    	
+    	request.setAttribute("restaurantListGsonString", restaurantListGsonString);
+    	RequestDispatcher view1 = request.getRequestDispatcher("results.html");
+    	view1.forward(request, response);
     	
     	
     }
