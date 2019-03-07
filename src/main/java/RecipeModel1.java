@@ -6,15 +6,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.json.simple.JSONObject;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -23,6 +26,7 @@ import com.google.gson.Gson;
  */
 public class RecipeModel1 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	public String test = "";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -32,7 +36,12 @@ public class RecipeModel1 extends HttpServlet {
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		//grabs query from search page
+		request.getParameter("query"); 
 		String query = "chicken";
+
+		//interface with the API to grab search results through API URL
 		URL url = new URL("https://api.edamam.com/search?q="+query+"&app_id=4a9fd6fd&app_key=5c19fb5e5cd1a263402a46d716c31868");
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
@@ -62,7 +71,7 @@ public class RecipeModel1 extends HttpServlet {
 		//splits json string
 		String[] parts = recipe_string.split(",");
 
-		//grab recipe name, JSON has it written as 'label'
+		//add the names of recipes(called label in JSON) to the recipeTimesList ArrayList
 		String recipe_name = ""; 
 		for (int i = 0; i < parts.length; i++) {
 			if (parts[i].contains("label") && parts[i+1].contains("image")) {
@@ -72,7 +81,7 @@ public class RecipeModel1 extends HttpServlet {
 			}
 		}
 
-		//grabs times from json object
+		//add the times to the recipeTimesList ArrayList  
 		double cookTime = 0;
 		double prepTime = 0;
 		for (int i = 0; i < parts.length; i++) {
@@ -85,7 +94,7 @@ public class RecipeModel1 extends HttpServlet {
 			}
 		}
 
-		//pass a specified JSON to results.html
+		//create a HashMap of <RecipeName, Recipe Times>
 		for (int i = 0; i < recipeNameList.size();i++) {
 			String[] times = new String[2];
 			times[0] = recipeTimesList.get(i);  //cookTime
@@ -93,9 +102,53 @@ public class RecipeModel1 extends HttpServlet {
 			recipeList.put(recipeNameList.get(i), times);
 		}
 
-		Gson recipeListGson = new Gson(); 
-		String recipeListGsonString = recipeListGson.toJson(recipeList); 
+		//filter recipe results from API with the doNotShow List constraints
+		Iterator it = recipeList.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry)it.next();
+			String recipeName = (String) pair.getKey();
+			String[] times = (String[]) pair.getValue();
+
+			if (Lists.doNotShow.contains(recipeName)) {
+				recipeList.remove(recipeName);
+			}
+			it.remove();
+		}
 		
+		//filter recipe results from API with the favorites List items to show at top
+		Map<String,String[]> orderedRecipes = new LinkedHashMap<String,String[]>();
+		Iterator it1 = recipeList.entrySet().iterator();
+		while (it1.hasNext()) {
+			Map.Entry pair = (Map.Entry)it1.next();
+			String recipeName = (String) pair.getKey();
+			String[] times = (String[]) pair.getValue();
+			if (Lists.favorites.contains(recipeName)) {
+				orderedRecipes.put(recipeName,times);
+				recipeList.remove(recipeName);
+			}
+			it1.remove();
+		}
+		
+		//add remaining items from recipeList to orderedRecipes
+		if (!recipeList.isEmpty()) {
+			Iterator it2 = recipeList.entrySet().iterator();
+			while(it1.hasNext()) {
+				Map.Entry pair = (Map.Entry)it2.next();
+				String recipeName = (String) pair.getKey();
+				String[] times = (String[]) pair.getValue();
+				orderedRecipes.put(recipeName, times);
+			}
+		}
+		
+		//convert the JSON to a String to be passed to front-end
+		Gson recipeListGson = new Gson(); 
+		String recipeListGsonString = recipeListGson.toJson(orderedRecipes); 
+
+		//creating session storage for JSON to be accessible to other servlets
+		HttpSession session = request.getSession();
+		session.setAttribute("recipeList", recipeListGsonString);
+
+		//send recipeList to front end
 		PrintWriter pw = response.getWriter();
 		pw.print(recipeListGsonString);
 	}
