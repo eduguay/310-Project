@@ -3,6 +3,8 @@ $(document).ready(function() {
   const url_string = window.location.href;
   const url = new URL(url_string);
   const type = url.searchParams.get("type");
+  const food = url.searchParams.get("food");
+  const numOfSearch = url.searchParams.get("numOfSearch");
 
   /* display content */
   $(".list-title").text(`${type} List`);
@@ -20,7 +22,7 @@ $(document).ready(function() {
     } else {
       location.href = `./list.html?type=${$(".dropdown-content")
         .text()
-        .trim()}`;
+        .trim()}&food=${food}&numOfSearch=${numOfSearch}`;
     }
   });
 
@@ -37,7 +39,7 @@ $(document).ready(function() {
   });
 
   $(".return-to-result").on("click", () => {
-    location.href = "/results.html";
+    location.href = `/results.html?food=${food}&numOfSearch=${numOfSearch}`;
   });
 
   $(".dropdown-item-single").click(function() {
@@ -46,90 +48,24 @@ $(document).ready(function() {
 
   /* get contents */
   function getContents(type) {
-    let contents = [];
-    if (type === "Favorites") {
-      contents = [
-        {
-          name: "FAV",
-          min: "0.2min",
-          address: "asdhjggggggggggggggg",
-          price: "$"
-        },
-        {
-          name: "FAVK",
-          min: "0.2min",
-          address: "asdhjggggggggggggggg",
-          price: "$$"
-        },
-        {
-          name: "FAV",
-          cookTime: "10min",
-          prepTime: "20min",
-          price: "$"
-        },
-        {
-          name: "FAV",
-          cookTime: "10min",
-          prepTime: "20min",
-          price: "$$"
-        }
-      ];
-    } else if (type === "To Explore") {
-      contents = [
-        {
-          name: "EXP",
-          min: "0.2min",
-          address: "asdhjggggggggggggggg",
-          price: "$"
-        },
-        {
-          name: "EXPK",
-          min: "0.2min",
-          address: "asdhjggggggggggggggg",
-          price: "$$"
-        },
-        {
-          name: "EXP",
-          cookTime: "10min",
-          prepTime: "20min",
-          price: "$"
-        },
-        {
-          name: "EXP",
-          cookTime: "10min",
-          prepTime: "20min",
-          price: "$$"
-        }
-      ];
-    } else if (type === "Do Not Show") {
-      contents = [
-        {
-          name: "NO",
-          min: "0.2min",
-          address: "asdhjggggggggggggggg",
-          price: "$"
-        },
-        {
-          name: "NOK",
-          min: "0.2min",
-          address: "asdhjggggggggggggggg",
-          price: "$$"
-        },
-        {
-          name: "NO",
-          cookTime: "10min",
-          prepTime: "20min",
-          price: "$"
-        },
-        {
-          name: "NO",
-          cookTime: "10min",
-          prepTime: "20min",
-          price: "$$"
-        }
-      ];
-    }
+    switch (type) {
+      case "Favorites":
+        getFavList(displayContents);
+        break;
+      case "To Explore":
+        getToEx(displayContents);
+        break;
+      case "Do Not Show":
+        getNotShow(displayContents);
+        break;
 
+      default:
+        return;
+    }
+  }
+
+  // display contents
+  function displayContents(contents) {
     contents.forEach((content, index) => {
       // if recipe
       if (content["cookTime"]) {
@@ -159,6 +95,51 @@ $(document).ready(function() {
           </div>`;
 
         $(".list-content").append(restaurantDOM);
+      }
+    });
+  }
+
+  // get favorites list
+  function getFavList(callback) {
+    $.ajax({
+      type: "get",
+      url: `temp?list=favorite`,
+      async: true,
+      success: function(data) {
+        callback(data);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  }
+
+  // get to explore list
+  function getToEx(callback) {
+    $.ajax({
+      type: "get",
+      url: `temp?list=toex`,
+      async: true,
+      success: function(data) {
+        callback(data);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  }
+
+  // get do not show list
+  function getNotShow(callback) {
+    $.ajax({
+      type: "get",
+      url: `temp?list=notshow`,
+      async: true,
+      success: function(data) {
+        callback(data);
+      },
+      error: function(err) {
+        console.log(err);
       }
     });
   }
