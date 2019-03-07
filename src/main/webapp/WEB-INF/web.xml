@@ -22,12 +22,15 @@
   	<description></description>
   	<servlet-class>SearchController</servlet-class>
   </servlet>
+<<<<<<< HEAD
   <servlet>
   	<servlet-name>RecipeModel1</servlet-name>
   	<display-name>RecipeModel1</display-name>
   	<description></description>
   	<servlet-class>RecipeModel1</servlet-class>
   </servlet>
+=======
+>>>>>>> da362a53b045680b81e731b4882277451a2cf5d8
   <servlet-mapping>
   	<servlet-name>RestaurantModel</servlet-name>
   	<url-pattern>/RestaurantModel</url-pattern>
@@ -40,8 +43,12 @@
   	<servlet-name>SearchController</servlet-name>
   	<url-pattern>/SearchController</url-pattern>
   </servlet-mapping>
+<<<<<<< HEAD
   <servlet-mapping>
   	<servlet-name>RecipeModel1</servlet-name>
   	<url-pattern>/RecipeModel1</url-pattern>
   </servlet-mapping>
 </web-app>
+=======
+</web-app>
+>>>>>>> da362a53b045680b81e731b4882277451a2cf5d8

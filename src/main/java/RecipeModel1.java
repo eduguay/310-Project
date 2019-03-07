@@ -48,7 +48,6 @@ public class RecipeModel1 extends HttpServlet {
 
 		//print out the url and test if it is correct
 		PrintWriter out = response.getWriter();
-		out.println("<h1>" + url + "</h1>");
 
 		con.setRequestProperty("Content-Type", "application/json");
 
@@ -68,7 +67,7 @@ public class RecipeModel1 extends HttpServlet {
 		ArrayList<String> recipeTimesList = new ArrayList<String>();
 		Map<String,String[]> recipeList = new HashMap<String, String[]>();
 
-		//splits json string
+		//splits JSON string
 		String[] parts = recipe_string.split(",");
 
 		//add the names of recipes(called label in JSON) to the recipeTimesList ArrayList

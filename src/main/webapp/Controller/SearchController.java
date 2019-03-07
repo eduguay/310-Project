@@ -6,29 +6,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/*
+ *  Google Custom Search API Key: 
+ */
 
-// Places API Key: AIzaSyBKL46dI7C9lgxkPQXK63DNdZeK_8Tw06k 
 
 
 /**
- * Servlet implementation class RestaurantModel
+ * Servlet implementation class SearchController
  */
-public class RestaurantModel extends HttpServlet {
+public class SearchController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RestaurantModel() {
+    public SearchController() {
         super();
         // TODO Auto-generated constructor stub
     }
-    
-    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    	
-    	
-    }
+	/**
+	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */

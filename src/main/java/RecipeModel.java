@@ -1,34 +1,5 @@
 import java.util.ArrayList;
 
-
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.LinkedList;
-//
-//public class RecipeModel {
-//	private String recipeName;
-//	private HashMap<String, Integer> ingredients;
-//	private LinkedList<String> instructions;
-//	private int prepTime;
-//	private int cookingTime;
-//	private ArrayList<Recipe> hits;
-//	
-//	public RecipeModel (String name) {
-//		this.recipeName = name;
-//	}
-//	
-//	public String getRecipeName() {
-//		return recipeName;
-//	}
-//	
-//	public int getPrepTime() {
-//		return prepTime;
-//	}
-//	public int getCookingTime() {
-//		return cookingTime;
-//	}
-//}
-
 public class RecipeModel {
  private String q;
  private float from;
