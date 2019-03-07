@@ -7,9 +7,9 @@ $(document).ready(() => {
 
   /* display content */
   $(".result-text").text(`Results For ${food}`);
-  displayImages(food);
-  displayRestaurants(food, numOfSearch);
-  displayRecipes(food, numOfSearch);
+  getImages(food, displayImages);
+  getRestaurants(food, numOfSearch, displayRestaurants);
+  getRecipes(food, numOfSearch, displayRecipes);
 
   /* add eventlistener to list options */
   $(".manage-list").on("click", () => {
@@ -23,7 +23,7 @@ $(document).ready(() => {
     } else {
       location.href = `./list.html?type=${$(".dropdown-content")
         .text()
-        .trim()}`;
+        .trim()}&food=${food}&numOfSearch=${numOfSearch}`;
     }
   });
 
@@ -44,8 +44,8 @@ $(document).ready(() => {
   });
 
   /* get images */
-  function displayImages(food) {
-    const images = [
+  function displayImages(images) {
+    images = [
       "./images/1.jpg",
       "./images/2.jpg",
       "./images/3.jpg",
@@ -67,8 +67,8 @@ $(document).ready(() => {
   }
 
   /* get restaurant */
-  function displayRestaurants(food, numOfSearch) {
-    const restaurants = [
+  function displayRestaurants(restaurants) {
+    restaurants = [
       {
         name: "EVK",
         min: "0.2min",
@@ -95,10 +95,16 @@ $(document).ready(() => {
       }
     ];
 
+    const url_string_2 = window.location.href;
+    const url_2 = new URL(url_string_2);
+    const num = url_2.searchParams.get("numOfSearch");
+
     restaurants.forEach((restaurant, index) => {
       const restaurantDOM = `<div class="result-restaurant-item" ${
         index % 2 === 1 ? 'style="background: gray;"' : ""
-      } onclick="location.href = './restaurant.html?name=${restaurant.name}'">
+      } onclick="location.href = './restaurant.html?name=${
+        restaurant.name
+      }&numOfSearch=${num}'">
         <div class="result-restaurant-item-left">
           <p class="result-restaurant-item-name">${restaurant.name}</p>
           <p class="result-restaurant-item-min">${restaurant.min}</p>
@@ -112,8 +118,8 @@ $(document).ready(() => {
   }
 
   /* get recipe */
-  function displayRecipes(food, numOfSearch) {
-    const recipes = [
+  function displayRecipes(recipes, numOfSearch) {
+    recipes = [
       {
         name: "EVK",
         cookTime: "10min",
@@ -140,10 +146,16 @@ $(document).ready(() => {
       }
     ];
 
+    const url_string_2 = window.location.href;
+    const url_2 = new URL(url_string_2);
+    const num = url_2.searchParams.get("numOfSearch");
+
     recipes.forEach((recipe, index) => {
       const recipeDOM = `<div class="result-recipe-item" ${
         index % 2 === 1 ? 'style="background: gray;"' : ""
-      } onclick="location.href = './recipe.html?name=${recipe.name}'">
+      } onclick="location.href = './recipe.html?name=${
+        recipe.name
+      }&numOfSearch=${num}'">
         <div class="result-recipe-item-left">
           <p class="result-recipe-item-name">${recipe.name}</p>
           <p class="result-recipe-item-prepTime">${recipe.prepTime}</p>
@@ -153,6 +165,53 @@ $(document).ready(() => {
       </div>`;
 
       $(".result-recipe").append(recipeDOM);
+    });
+  }
+
+  // get images from backend
+  function getImages(food, callback) {
+    $.ajax({
+      type: "get",
+      url: `temp?key=${food}`,
+      async: true,
+      success: function(data) {
+        callback(data);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  }
+
+  // get restaurants from backend
+  function getRestaurants(food, numOfSearch, callback) {
+    $.ajax({
+      type: "get",
+      url: `temp?key=${food}&num=${numOfSearch}`,
+      async: true,
+      success: function(data) {
+        callback(data);
+      },
+      error: function(err) {
+        console.log(err);
+        callback();
+      }
+    });
+  }
+
+  // get recipes from backend
+  function getRecipes(food, numOfSearch, callback) {
+    $.ajax({
+      type: "get",
+      url: `temp?key=${food}&num=${numOfSearch}`,
+      async: true,
+      success: function(data) {
+        callback(data);
+      },
+      error: function(err) {
+        console.log(err);
+        callback();
+      }
     });
   }
 

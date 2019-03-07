@@ -3,23 +3,19 @@ $(document).ready(function() {
   const url_string = window.location.href;
   const url = new URL(url_string);
   const name = url.searchParams.get("name");
+  const numOfSearch = url.searchParams.get("numOfSearch");
 
   /* display content */
-  displayRecipe(name);
+  getRecipe(name, displayRecipe);
 
   /* add eventlistener to list options */
   $(".add-list").on("click", () => {
     // window.history.pushState({}, "", "./list.html");
-    if (
-      $(
-        $(".dropdown-content").text() === undefined || ".dropdown-content"
-      ).text() === ""
-    ) {
+    const type = $(".dropdown-content").text();
+    if (type === undefined || type === "") {
       alert("Please select a list first!");
     } else {
-      location.href = `./list.html?type=${$(".dropdown-content")
-        .text()
-        .trim()}`;
+      addToList(type);
     }
   });
 
@@ -32,16 +28,20 @@ $(document).ready(function() {
   });
 
   $(".return-to").on("click", () => {
-    location.href = "/results.html";
+    location.href = `/results.html?food=${name}&numOfSearch=${numOfSearch}`;
   });
 
   $(".dropdown-item-single").click(function() {
     $(".dropdown-content").text($(this).text());
   });
 
-  /* get recipe data */
-  function displayRecipe(name) {
-    const recipe = {
+  $(".print-version").click(function() {
+    window.open(`printableRecipe.html?name=${name}`);
+  });
+
+  /* display recipe data */
+  function displayRecipe(recipe) {
+    recipe = {
       prepTime: "20min",
       cookTime: "30min",
       ingredients: ["A", "B", "C", "D", "E", "F"],
@@ -79,5 +79,36 @@ $(document).ready(function() {
     </div>`;
 
     $(".recipe-detail").append(recipeDOM);
+  }
+
+  // get recipe data
+  function getRecipe(name, callback) {
+    $.ajax({
+      type: "get",
+      url: `RecipeModel1?query=${name}`,
+      async: true,
+      success: function(data) {
+        callback(data);
+      },
+      error: function(err) {
+        console.log(err);
+        callback();
+      }
+    });
+  }
+
+  // add to list
+  function addToList(type) {
+    $.ajax({
+      type: "post",
+      url: `add?type=${type}`,
+      async: true,
+      success: function(data) {
+        callback(data);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
   }
 });

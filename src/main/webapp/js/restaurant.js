@@ -3,23 +3,18 @@ $(document).ready(function() {
   const url_string = window.location.href;
   const url = new URL(url_string);
   const name = url.searchParams.get("name");
+  const numOfSearch = url.searchParams.get("numOfSearch");
 
   /* display content */
-  displayRestaurant(name);
+  getRestaurant(name, displayRestaurant);
 
   /* add eventlistener to list options */
   $(".add-list").on("click", () => {
-    // window.history.pushState({}, "", "./list.html");
-    if (
-      $(
-        $(".dropdown-content").text() === undefined || ".dropdown-content"
-      ).text() === ""
-    ) {
+    const type = $(".dropdown-content").text();
+    if (type === undefined || type === "") {
       alert("Please select a list first!");
     } else {
-      location.href = `./list.html?type=${$(".dropdown-content")
-        .text()
-        .trim()}`;
+      addToList(type);
     }
   });
 
@@ -32,16 +27,20 @@ $(document).ready(function() {
   });
 
   $(".return-to").on("click", () => {
-    location.href = "/results.html";
+    location.href = `/results.html?food=${name}&numOfSearch=${numOfSearch}`;
   });
 
   $(".dropdown-item-single").click(function() {
     $(".dropdown-content").text($(this).text());
   });
 
-  /* get Restaurant data */
-  function displayRestaurant(name) {
-    const restaurant = {
+  $(".print-version").click(function() {
+    window.open(`printableRestaurant.html?name=${name}`);
+  });
+
+  /* display Restaurant data */
+  function displayRestaurant(restaurant) {
+    restaurant = {
       address: "20min",
       phone: "2137564321",
       website: "https://www.leetcode.com",
@@ -50,7 +49,6 @@ $(document).ready(function() {
     };
 
     const restaurantDOM = `<h1 class="restaurant-title">${restaurant.name}</h1>
-    <img src="${restaurant.image}" class="restaurant-image mt-3" />
     <p class="restaurant-address mt-5">Address: ${restaurant.address}</p>
     <p class="restaurant-phone">Contact: ${restaurant.phone}</p>
     <a
@@ -61,5 +59,36 @@ $(document).ready(function() {
     >`;
 
     $(".restaurant-detail").append(restaurantDOM);
+  }
+
+  // get restaurant data
+  function getRestaurant(name, callback) {
+    $.ajax({
+      type: "get",
+      url: `restaurant?name=${name}`,
+      async: true,
+      success: function(data) {
+        callback(data);
+      },
+      error: function(err) {
+        console.log(err);
+        callback();
+      }
+    });
+  }
+
+  // add to list
+  function addToList(type) {
+    $.ajax({
+      type: "post",
+      url: `add?type=${type}`,
+      async: true,
+      success: function(data) {
+        callback(data);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
   }
 });
