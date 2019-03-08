@@ -27,7 +27,7 @@ $(document).ready(function() {
   });
 
   $(".return-to").on("click", () => {
-    location.href = `/results.html?food=${name}&numOfSearch=${numOfSearch}`;
+    location.href = `results.html?food=${name}&numOfSearch=${numOfSearch}`;
   });
 
   $(".dropdown-item-single").click(function() {
