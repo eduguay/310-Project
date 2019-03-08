@@ -45,18 +45,6 @@ $(document).ready(() => {
 
   /* get images */
   function displayImages(images) {
-    images = [
-      "./images/1.jpg",
-      "./images/2.jpg",
-      "./images/3.jpg",
-      "./images/4.jpg",
-      "./images/5.jpg",
-      "./images/6.jpg",
-      "./images/7.jpg",
-      "./images/8.jpg",
-      "./images/9.jpg",
-      "./images/10.jpg"
-    ];
 
     images.forEach((image, index) => {
       const imageDOM = `<img class="result-image image-${index}" src="${image}" style='transform: rotate(${Math.floor(
@@ -146,10 +134,11 @@ $(document).ready(() => {
   function getImages(food, callback) {
     $.ajax({
       type: "get",
-      url: `temp?key=${food}`,
+      url: `SearchController?key=${food}`,
       async: true,
       success: function(data) {
-        callback(data);
+    	  var images = JSON.parse(data);
+        callback(images);
       },
       error: function(err) {
         console.log(err);
