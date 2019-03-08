@@ -16,7 +16,7 @@ $(document).ready(function() {
     if (
       $(
         $(".dropdown-content").text() === undefined || ".dropdown-content"
-      ).text() === ""
+      ).text() === " "
     ) {
       alert("Please select a list first!");
     } else {
@@ -35,11 +35,11 @@ $(document).ready(function() {
   });
 
   $(".return-to-search").on("click", () => {
-    location.href = "/index.html";
+    location.href = "index.html";
   });
 
   $(".return-to-result").on("click", () => {
-    location.href = `/results.html?food=${food}&numOfSearch=${numOfSearch}`;
+    location.href = `results.html?food=${food}&numOfSearch=${numOfSearch}`;
   });
 
   $(".dropdown-item-single").click(function() {
