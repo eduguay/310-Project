@@ -26,6 +26,7 @@ import restaurantJSON.PlaceDetails;
 import restaurantJSON.Result;
 import restaurantJSON.ReturnResult;
 import restaurantJSON.Row;
+import restaurantJSON.SortByDistance;
 import restaurantJSON.Element;
 import restaurantJSON.Duration;
 
@@ -53,8 +54,8 @@ public class RestaurantModel extends HttpServlet {
 	private static final String TOMMY_PLACE_ID = "ChIJIfdecuPHwoARKagsKQF16io";
 		// Places API Key
 	private static final String API_KEY = "&key=AIzaSyAwiU4-BZSxmoCRsMvHOsATa-TYvfcVrFU";
-
 	
+	private static ArrayList<ReturnResult> restaurantList = new ArrayList<ReturnResult>();
 	
 	// String keyword radius yards
 	public static ArrayList<ReturnResult> search(String keyword, int radius){
@@ -68,7 +69,8 @@ public class RestaurantModel extends HttpServlet {
 			sb.append(NEARBY_SEARCH);
 			sb.append(OUT_JSON);
 			sb.append("?location=" + String.valueOf(LAT) + "," + String.valueOf(LNG));
-			sb.append("&radius=" + String.valueOf(radius));
+			sb.append("&rankby=distance");
+			//sb.append("&radius=" + String.valueOf(radius));
 			sb.append("&type=restaurant");
 			sb.append("&keyword=" + URLEncoder.encode(keyword, "utf8").replace("+", "%20"));
 			sb.append(API_KEY);
@@ -140,11 +142,13 @@ public class RestaurantModel extends HttpServlet {
 				}
 				DistanceDetails distanceDetail = new Gson().fromJson(jsonDistance.toString(), DistanceDetails.class);
 				String distanceTime = distanceDetail.getRows().get(0).getElements().get(0).getDuration().getText();
+				int distanceValue = Integer.valueOf(distanceDetail.getRows().get(0).getElements().get(0).getDuration().getValue());
 				
 				
 				ReturnResult returnResult = new ReturnResult();
 				returnResult.copyResult(result);
 				returnResult.setDistance(distanceTime);
+				returnResult.setDistanceValue(distanceValue);
 				
 				results.add(returnResult);
 			
@@ -182,6 +186,14 @@ public class RestaurantModel extends HttpServlet {
 		
 		Gson restaurantListGson = new Gson(); 
 		String restaurantListGsonString = restaurantListGson.toJson(limitedResults); 
+		
+		return restaurantListGsonString;
+	}
+	
+public String formatJSON(ReturnResult result) {
+		
+		Gson restaurantListGson = new Gson(); 
+		String restaurantListGsonString = restaurantListGson.toJson(result); 
 		
 		return restaurantListGsonString;
 	}
@@ -226,28 +238,39 @@ public class RestaurantModel extends HttpServlet {
     
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-    	
-    	String query = request.getParameter("key");
-    	System.out.println(query);
-    	
-    	ArrayList<ReturnResult> restaurantList = search(query, 200);
-    	restaurantList = removeDoNotShow(restaurantList);
-    	restaurantList = raiseFavorites(restaurantList);
-    	
-    	System.out.println(request.getParameter("num"));
-    	int number = Integer.valueOf(request.getParameter("num"));
-    	String jsonReturn = formatJSON(restaurantList, number);
-    	
-    	HttpSession session = request.getSession();
-    	session.setAttribute("restaurantList", jsonReturn);
-    	
-    	
-    	System.out.println(jsonReturn);
-    	
-    	
-    	PrintWriter pw = response.getWriter();
-    	pw.print(jsonReturn);
-    	
+    	if(request.getParameter("name") != null) {
+    		for(int i = 0; i < restaurantList.size(); i++) {
+    			if(restaurantList.get(i).getName().equals(request.getParameter("name"))) {
+    				ArrayList<ReturnResult> holder = new ArrayList<ReturnResult>();
+    				holder.add(restaurantList.get(i));
+    				String jsonReturn = formatJSON(holder, 1);
+    				System.out.println(jsonReturn);
+    				System.out.println("Single call");
+    				PrintWriter pw = response.getWriter();
+    		    	pw.print(jsonReturn);
+    			}
+    		}
+    		
+    	} else {
+	    	String query = request.getParameter("key");
+	    	System.out.println(query);
+	    	
+	    	restaurantList = search(query, 2000);
+	    	Collections.sort(restaurantList, new SortByDistance());
+	    	restaurantList = removeDoNotShow(restaurantList);
+	    	restaurantList = raiseFavorites(restaurantList);
+	    	
+	    	System.out.println(request.getParameter("num"));
+	    	int number = Integer.valueOf(request.getParameter("num"));
+	    	String jsonReturn = formatJSON(restaurantList, number);
+	    	
+	    	HttpSession session = request.getSession();
+	    	session.setAttribute("restaurantList", jsonReturn);
+	    	
+	    	System.out.println(jsonReturn);	    	
+	    	PrintWriter pw = response.getWriter();
+	    	pw.print(jsonReturn);
+    	}
     	
     }
 	/**

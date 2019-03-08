@@ -40,14 +40,7 @@ $(document).ready(function() {
 
   /* display Restaurant data */
   function displayRestaurant(restaurant) {
-    restaurant = {
-      address: "20min",
-      phone: "2137564321",
-      website: "https://www.leetcode.com",
-      image: "./images/10.jpg",
-      name
-    };
-
+    
     const restaurantDOM = `<h1 class="restaurant-title">${restaurant.name}</h1>
     <p class="restaurant-address mt-5">Address: ${restaurant.address}</p>
     <p class="restaurant-phone">Contact: ${restaurant.phone}</p>
@@ -65,7 +58,7 @@ $(document).ready(function() {
   function getRestaurant(name, callback) {
     $.ajax({
       type: "get",
-      url: `restaurant?name=${name}`,
+      url: `RestaurantModel?name=${name}`,
       async: true,
       success: function(data) {
         callback(data);

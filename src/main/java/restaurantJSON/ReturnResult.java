@@ -23,6 +23,9 @@ public class ReturnResult {
 	@SerializedName("min")
 	@Expose
 	private String distance;
+	@SerializedName("distanceMeters")
+	@Expose
+	private Integer distanceValue;
 	
 	public void copyResult(Result result) {
 		this.formattedAddress = result.getFormattedAddress();
@@ -62,6 +65,14 @@ public class ReturnResult {
 
 	public void setPriceLevel(Integer priceLevel) {
 	this.priceLevel = priceLevel;
+	}
+		
+	public Integer getDistanceValue() {
+	return distanceValue;
+	}
+
+	public void setDistanceValue(Integer distanceValue) {
+	this.distanceValue = distanceValue;
 	}
 
 	public String getWebsite() {
