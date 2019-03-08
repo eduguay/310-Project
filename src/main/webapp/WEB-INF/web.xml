@@ -41,5 +41,9 @@
   	<servlet-name>SearchController</servlet-name>
   	<url-pattern>/SearchController</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>RecipeModel1</servlet-name>
+  	<url-pattern>/RecipeModel1</url-pattern>
+  </servlet-mapping>
 
 </web-app>

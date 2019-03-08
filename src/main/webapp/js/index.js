@@ -7,6 +7,6 @@ $(document).ready(function() {
   /* forward page */
   $(".search-form").on("submit", e => {
     e.preventDefault();
-    location.href = `/results.html?${$("form").serialize()}`;
+    location.href = `results.html?${$("form").serialize()}`;
   });
 });

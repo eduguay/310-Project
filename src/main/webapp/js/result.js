@@ -203,7 +203,7 @@ $(document).ready(() => {
   function getRecipes(food, numOfSearch, callback) {
     $.ajax({
       type: "get",
-      url: `/Team4/RecipeModel1?key=${food}&num=${numOfSearch}`,
+      url: `RecipeModel1?key=${food}&num=${numOfSearch}`,
       async: true,
       success: function(data) {
         callback(data);
