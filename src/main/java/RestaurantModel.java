@@ -56,7 +56,7 @@ public class RestaurantModel extends HttpServlet {
 	private static ArrayList<ReturnResult> restaurantList = new ArrayList<ReturnResult>();
 	
 	// String keyword radius yards
-	public static ArrayList<ReturnResult> search(String keyword, int radius){
+	public static ArrayList<ReturnResult> search(String keyword){
 		ArrayList<ReturnResult> results = null;
 		HttpURLConnection conn = null;
 		StringBuilder jsonResults = new StringBuilder();
@@ -269,7 +269,7 @@ public String formatJSON(ReturnResult result) {
 	    	String query = request.getParameter("key");
 	    	System.out.println(query);
 	    	
-	    	restaurantList = search(query, 2000);
+	    	restaurantList = search(query);
 	    	Collections.sort(restaurantList, new SortByDistance());
 	    	restaurantList = removeDoNotShow(restaurantList);
 	    	restaurantList = raiseFavorites(restaurantList);
