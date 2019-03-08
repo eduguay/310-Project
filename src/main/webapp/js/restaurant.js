@@ -42,7 +42,13 @@ $(document).ready(function() {
   function displayRestaurant(restaurant) {
     
     const restaurantDOM = `<h1 class="restaurant-title">${restaurant.name}</h1>
-    <p class="restaurant-address mt-5">Address: ${restaurant.address}</p>
+    <a 
+    	class="restaurant-address mt-5" 
+    	href="https://maps.google.com?saddr=801-899+Childs Way,+Los Angeles,+CA+90089&daddr=${restaurant.address.replace(' ', '+')}"
+    	target="_blank"
+    >
+    	Address: ${restaurant.address}
+    </a>
     <p class="restaurant-phone">Contact: ${restaurant.phone}</p>
     <a
       class="restaurant-website"
@@ -61,7 +67,8 @@ $(document).ready(function() {
       url: `RestaurantModel?name=${name}`,
       async: true,
       success: function(data) {
-        callback(data);
+      	var res = JSON.parse(data);
+        callback(res[0]);
       },
       error: function(err) {
         console.log(err);
@@ -77,13 +84,9 @@ $(document).ready(function() {
       url: `add?type=${type}`,
       async: true,
       success: function(data) {
-    	  console.log(data);
-    	  var res = JSON.parse(data);
-        callback(res);
-        console.log('success');
+        callback(data);
       },
       error: function(err) {
-    	  console.log('error');
         console.log(err);
       }
     });

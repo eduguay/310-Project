@@ -72,7 +72,7 @@ $(document).ready(() => {
           <p class="result-restaurant-item-min">${restaurant.min}</p>
           <p class="result-restaurant-item-address">${restaurant.address}</p>
         </div>
-        <div class="result-restaurant-item-right">${restaurant.price}</div>
+        <div class="result-restaurant-item-right">${restaurant.price ? restaurant.price : 1}</div>
       </div>`;
 
       $(".result-restaurant").append(restaurantDOM);
