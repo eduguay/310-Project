@@ -66,7 +66,7 @@ $(document).ready(() => {
         index % 2 === 1 ? 'style="background: gray;"' : ""
       } onclick="location.href = './restaurant.html?name=${
         restaurant.name
-      }&numOfSearch=${num}'">
+      }&numOfSearch=${num}&food=${food}'">
         <div class="result-restaurant-item-left">
           <p class="result-restaurant-item-name">${restaurant.name}</p>
           <p class="result-restaurant-item-min">${restaurant.min}</p>
@@ -91,7 +91,7 @@ $(document).ready(() => {
         index % 2 === 1 ? 'style="background: gray;"' : ""
       } onclick="location.href = './recipe.html?name=${
         recipe.name
-      }&numOfSearch=${num}'">
+      }&numOfSearch=${num}&food=${food}'">
         <div class="result-recipe-item-left">
           <p class="result-recipe-item-name">${recipe.recipeName}</p>
           <p class="result-recipe-item-prepTime">${recipe.prepTime}</p>

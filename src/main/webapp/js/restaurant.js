@@ -4,6 +4,7 @@ $(document).ready(function() {
   const url = new URL(url_string);
   const name = url.searchParams.get("name");
   const numOfSearch = url.searchParams.get("numOfSearch");
+  const food = url.searchParams.get("food");
 
   /* display content */
   getRestaurant(name, displayRestaurant);
@@ -27,7 +28,7 @@ $(document).ready(function() {
   });
 
   $(".return-to").on("click", () => {
-    location.href = `results.html?food=${name}&numOfSearch=${numOfSearch}`;
+    location.href = `results.html?food=${food}&numOfSearch=${numOfSearch}`;
   });
 
   $(".dropdown-item-single").click(function() {

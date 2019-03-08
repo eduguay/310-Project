@@ -4,6 +4,7 @@ $(document).ready(function() {
   const url = new URL(url_string);
   const name = url.searchParams.get("name");
   const numOfSearch = url.searchParams.get("numOfSearch");
+  const food = url.searchParams.get("food");
 
   /* display content */
   getRecipe(name, displayRecipe);
@@ -28,7 +29,7 @@ $(document).ready(function() {
   });
 
   $(".return-to").on("click", () => {
-    location.href = `results.html?food=${name}&numOfSearch=${numOfSearch}`;
+    location.href = `results.html?food=${food}&numOfSearch=${numOfSearch}`;
   });
 
   $(".dropdown-item-single").click(function() {
@@ -41,17 +42,6 @@ $(document).ready(function() {
 
   /* display recipe data */
   function displayRecipe(recipe) {
-    recipe = {
-      prepTime: "20min",
-      cookTime: "30min",
-      ingredients: ["A", "B", "C", "D", "E", "F"],
-      instructions: [
-        "Get a poisonous cookie",
-        "Throw the cookie to Halfond's face"
-      ],
-      image: "./images/1.jpg",
-      name
-    };
 
     let ingredients = "";
     recipe.ingredients.forEach(ingredient => {
@@ -88,11 +78,12 @@ $(document).ready(function() {
       url: `RecipeModel1?query=${name}`,
       async: true,
       success: function(data) {
-        callback(data);
+    	var recipe = JSON.parse(data);
+    	console.log(recipe);
+        callback(recipe);
       },
       error: function(err) {
         console.log(err);
-        callback();
       }
     });
   }
