@@ -248,9 +248,9 @@ public String formatJSON(ReturnResult result) {
     				System.out.println("Single call");
     				PrintWriter pw = response.getWriter();
     		    	pw.print(jsonReturn);
+    		    	break;
     			}
     		}
-    		
     	} else {
 	    	String query = request.getParameter("key");
 	    	System.out.println(query);

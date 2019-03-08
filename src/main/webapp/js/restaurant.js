@@ -77,9 +77,13 @@ $(document).ready(function() {
       url: `add?type=${type}`,
       async: true,
       success: function(data) {
-        callback(data);
+    	  console.log(data);
+    	  var res = JSON.parse(data);
+        callback(res);
+        console.log('success');
       },
       error: function(err) {
+    	  console.log('error');
         console.log(err);
       }
     });

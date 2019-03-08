@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Lists {
-	public static ArrayList<String> favorites;
-	public static ArrayList<String> doNotShow;
-	public static ArrayList<String> toExplore;
+	public static ArrayList<String> favorites = new ArrayList<String>();
+	public static ArrayList<String> doNotShow  = new ArrayList<String>();
+	public static ArrayList<String> toExplore  = new ArrayList<String>();
 }
