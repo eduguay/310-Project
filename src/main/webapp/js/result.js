@@ -68,32 +68,6 @@ $(document).ready(() => {
 
   /* get restaurant */
   function displayRestaurants(restaurants) {
-    restaurants = [
-      {
-        name: "EVK",
-        min: "0.2min",
-        address: "asdhjggggggggggggggg",
-        price: "$"
-      },
-      {
-        name: "EVKK",
-        min: "0.2min",
-        address: "asdhjggggggggggggggg",
-        price: "$$"
-      },
-      {
-        name: "EVKKK",
-        min: "0.2min",
-        address: "asdhjggggggggggggggg",
-        price: "$$$"
-      },
-      {
-        name: "EVKKKK",
-        min: "0.2min",
-        address: "asdhjggggggggggggggg",
-        price: "$$$"
-      }
-    ];
 
     const url_string_2 = window.location.href;
     const url_2 = new URL(url_string_2);
@@ -187,12 +161,15 @@ $(document).ready(() => {
   function getRestaurants(food, numOfSearch, callback) {
     $.ajax({
       type: "get",
-      url: `temp?key=${food}&num=${numOfSearch}`,
+      url: `RestaurantModel?key=${food}&num=${numOfSearch}`,
       async: true,
       success: function(data) {
-        callback(data);
+    	
+    	var restaurant = JSON.parse(data);
+        callback(restaurant);
       },
       error: function(err) {
+    	  console.log('error');
         console.log(err);
         callback();
       }
@@ -206,6 +183,7 @@ $(document).ready(() => {
       url: `RecipeModel1?key=${food}&num=${numOfSearch}`,
       async: true,
       success: function(data) {
+    	
         callback(data);
       },
       error: function(err) {
