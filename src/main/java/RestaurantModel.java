@@ -236,26 +236,34 @@ public String formatJSON(ReturnResult result) {
     
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-    	if(request.getParameter("name") != null) {
+    	
+    	if(request.getParameter("type") != null){
     		for(int i = 0; i < restaurantList.size(); i++) {
     			if(restaurantList.get(i).getName().equals(request.getParameter("name"))) {
-    				ArrayList<ReturnResult> holder = new ArrayList<ReturnResult>();
-    				holder.add(restaurantList.get(i));
-    				String jsonReturn = formatJSON(holder, 1);
-    				System.out.println(jsonReturn);
-    				System.out.println("Single call");
-    				PrintWriter pw = response.getWriter();
-    		    	pw.print(jsonReturn);
+    				String type = request.getParameter("type");
+    				if(type.equals("Favorites")) {
+    					Lists.favorites.add(request.getParameter("name"));
+    				} else if( type.equals("To%20Explore")) {
+    					Lists.toExplore.add(request.getParameter("name"));
+    				} else {
+    					Lists.doNotShow.add(request.getParameter("name"));
+    				}
     		    	break;
     			}
-    		}
-    	} else if(request.getParameter("type") != null){
-    		for(int i = 0; i < restaurantList.size(); i++) {
-    			if(restaurantList.get(i).getName().equals(request.getParameter("name"))) {
-    				
-    		    	break;
-    			}
-    		}
+    		} 
+    	} else if(request.getParameter("name") != null) {
+        	for(int i = 0; i < restaurantList.size(); i++) {
+        		if(restaurantList.get(i).getName().equals(request.getParameter("name"))) {
+        			ArrayList<ReturnResult> holder = new ArrayList<ReturnResult>();
+        			holder.add(restaurantList.get(i));
+        			String jsonReturn = formatJSON(holder, 1);
+        			System.out.println(jsonReturn);
+        			System.out.println("Single call");
+        			PrintWriter pw = response.getWriter();
+        	    	pw.print(jsonReturn);
+        	    	break;
+        		}
+        	}
     	} else {
 
 	    	String query = request.getParameter("key");

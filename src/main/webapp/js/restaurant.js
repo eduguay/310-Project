@@ -81,7 +81,7 @@ $(document).ready(function() {
   function addToList(type) {
     $.ajax({
       type: "post",
-      url: `add?type=${type}`,
+      url: `add?type=${type.trim()}&name={name}`,
       async: true,
       success: function(data) {
         callback(data);

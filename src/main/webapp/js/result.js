@@ -93,7 +93,7 @@ $(document).ready(() => {
         recipe.name
       }&numOfSearch=${num}'">
         <div class="result-recipe-item-left">
-          <p class="result-recipe-item-name">${recipe.name}</p>
+          <p class="result-recipe-item-name">${recipe.recipeName}</p>
           <p class="result-recipe-item-prepTime">${recipe.prepTime}</p>
           <p class="result-recipe-item-cookTime">${recipe.cookTime}</p>
         </div>
@@ -148,9 +148,10 @@ $(document).ready(() => {
       async: true,
       success: function(data) {
     	  var recipe = JSON.parse(data);
-    	  console.log(recipe[0][0]);
+    	
+    	  console.log(recipe[0]);
     	  
-        callback(recipe);
+        callback(recipe[0]);
       },
       error: function(err) {
         console.log(err);
