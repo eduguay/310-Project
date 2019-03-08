@@ -1,5 +1,5 @@
 def wait_for_ajax
-    Timeout.timeout(10000) do
+    Timeout.timeout(20) do
       active = page.evaluate_script('jQuery.active')
       until active == 0
         active = page.evaluate_script('jQuery.active')
@@ -9,10 +9,8 @@ def wait_for_ajax
 
 restaurant_name0 = ''
 restaurant_name1 = ''
-restaurant_name2 = ''
 recipe_name0 = ''
 recipe_name1 = ''
-recipe_name2 = ''
 
 # list page
 Given(/^User will enter "coffee" and "7" and click Feed Me! and adds several items to three lists$/) do
@@ -22,7 +20,7 @@ Given(/^User will enter "coffee" and "7" and click Feed Me! and adds several ite
     find('#search-button').native.send_key(:enter)
     wait_for_ajax
     # add restaurant 0 to Favorite List and To Explore List
-    restaurant_name0 = find('.restaurant-0 .result-restaurant-item-name').text
+    # restaurant_name0 = find('.restaurant-0 .result-restaurant-item-name').text
     find('.restaurant-0').click
     find('.select-list').click
     find('.item-1').click
@@ -32,20 +30,9 @@ Given(/^User will enter "coffee" and "7" and click Feed Me! and adds several ite
     find('.add-list').click
     find('.return-to').click
     wait_for_ajax
-    # add restaurant 1 to Favorite List and To Explore List
-    restaurant_name1 = find('.restaurant-1 .result-restaurant-item-name').text
+    # add restaurant 1 to Do Not Show List
+    restaurant_name2 = find('.restaurant-1 .result-restaurant-item-name').text
     find('.restaurant-1').click
-    find('.select-list').click
-    find('.item-1').click
-    find('.add-list').click
-    find('.select-list').click
-    find('.item-2').click
-    find('.add-list').click
-    find('.return-to').click
-    wait_for_ajax
-    # add restaurant 2 to Do Not Show List
-    restaurant_name2 = find('.restaurant-2 .result-restaurant-item-name').text
-    find('.restaurant-2').click
     find('.select-list').click
     find('.item-3').click
     find('.add-list').click
@@ -62,20 +49,9 @@ Given(/^User will enter "coffee" and "7" and click Feed Me! and adds several ite
     find('.add-list').click
     find('.return-to').click
     wait_for_ajax
-    # add recipe 1 to Favorite List and To Explore List
-    recipe_name1 = find('.recipe-1 .result-recipe-item-name').text
+    # add recipe 1 to Do Not Show List
+    recipe_name2 = find('.recipe-1 .result-recipe-item-name').text
     find('.recipe-1').click
-    find('.select-list').click
-    find('.item-1').click
-    find('.add-list').click
-    find('.select-list').click
-    find('.item-2').click
-    find('.add-list').click
-    find('.return-to').click
-    wait_for_ajax
-    # add recipe 2 to Do Not Show List
-    recipe_name2 = find('.recipe-2 .result-recipe-item-name').text
-    find('.recipe-2').click
     find('.select-list').click
     find('.item-3').click
     find('.add-list').click
@@ -124,8 +100,6 @@ Then(/^All items that have been added to the list are to be displayed$/) do
     find('.manage-list').click
     expect(page).to have_css(restaurant_name0)
     expect(page).to have_css(recipe_name0)
-    expect(page).to have_css(restaurant_name1)
-    expect(page).to have_css(recipe_name1)
 
     # to explore list
     find('.select-list').click
@@ -133,14 +107,12 @@ Then(/^All items that have been added to the list are to be displayed$/) do
     find('.manage-list').click
     expect(page).to have_css(restaurant_name0)
     expect(page).to have_css(recipe_name0)
-    expect(page).to have_css(restaurant_name1)
-    expect(page).to have_css(recipe_name1)
 
     # do not show list
     find('.select-list').click
     find('.item-3').click
     find('.manage-list').click
-    expect(page).to have_css(restaurant_name2)
-    expect(page).to have_css(recipe_name2)
+    expect(page).to have_css(restaurant_name1)
+    expect(page).to have_css(recipe_name1)
 
 end
