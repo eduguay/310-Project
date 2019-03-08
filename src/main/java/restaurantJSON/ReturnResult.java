@@ -26,6 +26,9 @@ public class ReturnResult {
 	@SerializedName("distanceMeters")
 	@Expose
 	private Integer distanceValue;
+	@SerializedName("addressURL")
+	@Expose
+	private String addressURL;
 	
 	public void copyResult(Result result) {
 		this.formattedAddress = result.getFormattedAddress();
@@ -85,11 +88,19 @@ public class ReturnResult {
 	
 	
 	public String getDistance() {
-	return distance;
+		return distance;
 	}
 
 	public void setDistance(String distance) {
-	this.distance = distance;
+		this.distance = distance;
+	}
+		
+	public String getAddressURL() {
+		return addressURL;
+	}
+
+	public void setAddressURL(String addressURL) {
+		this.addressURL = addressURL;
 	}
 	
 }

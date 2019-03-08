@@ -49,7 +49,7 @@ public class SearchController extends HttpServlet {
 	public static SearchResults SearchImages (String searchQuery) throws Exception {
 		
         // construct URL of search request (endpoint + query string)
-        URL url = new URL(host + path + "?q=" +  URLEncoder.encode(searchQuery, "UTF-8") + "&maxHeight=200&count=10&imageType=Photo&mkt=en-us");
+        URL url = new URL(host + path + "?q=" +  URLEncoder.encode(searchQuery, "UTF-8") + "&maxHeight=200&count=1&imageType=Photo&mkt=en-us");
         HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
         connection.setRequestProperty("Ocp-Apim-Subscription-Key", subscriptionKey);
 
@@ -103,8 +103,8 @@ public class SearchController extends HttpServlet {
         }
 
         try {
-        	//String searchTerm = request.getParameter("key");
-        	String searchTerm = "cake";
+        	String searchTerm = request.getParameter("key");
+        	//String searchTerm = "cake";
             System.out.println("Searching the Web for: " + searchTerm);
 
             SearchResults result = SearchImages(searchTerm);

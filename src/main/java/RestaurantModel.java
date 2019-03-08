@@ -50,7 +50,7 @@ public class RestaurantModel extends HttpServlet {
 		//Tommy Trojan LATs and LONGs
 	private static final String LAT = "34.021217";
 	private static final String LNG = "-118.287093";
-	//private static final String TOMMY_ADDRESS = "801-899 Childs Way, Los Angeles, CA 90089";
+	private static final String TOMMY_ADDRESS = "801-899+Childs Way,+Los Angeles,+CA+90089";
 	private static final String TOMMY_PLACE_ID = "ChIJIfdecuPHwoARKagsKQF16io";
 		// Places API Key
 	private static final String API_KEY = "&key=AIzaSyAwiU4-BZSxmoCRsMvHOsATa-TYvfcVrFU";
