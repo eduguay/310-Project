@@ -69,7 +69,7 @@ $(document).ready(function() {
     contents.forEach((content, index) => {
       // if recipe
       if (content["cookTime"]) {
-        const recipeDOM = `<div class="result-recipe-item" ${
+        const recipeDOM = `<div class="result-recipe-item ${content.name}" ${
           index % 2 === 1 ? 'style="background: gray;"' : ""
         } onclick="location.href = './recipe.html?name=${content.name}'">
                 <div class="result-recipe-item-left">
@@ -83,7 +83,7 @@ $(document).ready(function() {
         $(".list-content").append(recipeDOM);
       } else {
         // if restaurant
-        const restaurantDOM = `<div class="result-restaurant-item" ${
+        const restaurantDOM = `<div class="result-restaurant-item ${content.name}" ${
           index % 2 === 1 ? 'style="background: gray;"' : ""
         } onclick="location.href = './restaurant.html?name=${content.name}'">
             <div class="result-restaurant-item-left">
