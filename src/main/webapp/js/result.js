@@ -81,32 +81,6 @@ $(document).ready(() => {
 
   /* get recipe */
   function displayRecipes(recipes, numOfSearch) {
-    recipes = [
-      {
-        name: "EVK",
-        cookTime: "10min",
-        prepTime: "20min",
-        price: "$"
-      },
-      {
-        name: "EVK",
-        cookTime: "10min",
-        prepTime: "20min",
-        price: "$$"
-      },
-      {
-        name: "EVK",
-        cookTime: "10min",
-        prepTime: "20min",
-        price: "$$$"
-      },
-      {
-        name: "EVK",
-        cookTime: "10min",
-        prepTime: "20min",
-        price: "$$$"
-      }
-    ];
 
     const url_string_2 = window.location.href;
     const url_2 = new URL(url_string_2);
@@ -155,6 +129,7 @@ $(document).ready(() => {
       success: function(data) {
     	
     	var restaurant = JSON.parse(data);
+    	 console.log(restaurant);
         callback(restaurant);
       },
       error: function(err) {
@@ -172,8 +147,10 @@ $(document).ready(() => {
       url: `RecipeModel1?key=${food}&num=${numOfSearch}`,
       async: true,
       success: function(data) {
-    	
-        callback(data);
+    	  var recipe = JSON.parse(data);
+    	  console.log(recipe[0][0]);
+    	  
+        callback(recipe);
       },
       error: function(err) {
         console.log(err);

@@ -25,10 +25,8 @@ import restaurantJSON.NearbyResults;
 import restaurantJSON.PlaceDetails;
 import restaurantJSON.Result;
 import restaurantJSON.ReturnResult;
-import restaurantJSON.Row;
 import restaurantJSON.SortByDistance;
-import restaurantJSON.Element;
-import restaurantJSON.Duration;
+
 
 
 // Places API Key: AIzaSyBKL46dI7C9lgxkPQXK63DNdZeK_8Tw06k 
@@ -50,7 +48,7 @@ public class RestaurantModel extends HttpServlet {
 		//Tommy Trojan LATs and LONGs
 	private static final String LAT = "34.021217";
 	private static final String LNG = "-118.287093";
-	private static final String TOMMY_ADDRESS = "801-899+Childs Way,+Los Angeles,+CA+90089";
+	//private static final String TOMMY_ADDRESS = "801-899+Childs Way,+Los Angeles,+CA+90089";
 	private static final String TOMMY_PLACE_ID = "ChIJIfdecuPHwoARKagsKQF16io";
 		// Places API Key
 	private static final String API_KEY = "&key=AIzaSyAwiU4-BZSxmoCRsMvHOsATa-TYvfcVrFU";
@@ -251,7 +249,15 @@ public String formatJSON(ReturnResult result) {
     		    	break;
     			}
     		}
+    	} else if(request.getParameter("type") != null){
+    		for(int i = 0; i < restaurantList.size(); i++) {
+    			if(restaurantList.get(i).getName().equals(request.getParameter("name"))) {
+    				
+    		    	break;
+    			}
+    		}
     	} else {
+
 	    	String query = request.getParameter("key");
 	    	System.out.println(query);
 	    	
@@ -273,20 +279,4 @@ public String formatJSON(ReturnResult result) {
     	}
     	
     }
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }

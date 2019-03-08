@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
-import javafx.util.Pair;
 
 /**
  * Servlet implementation class RecipeModel1
@@ -34,6 +33,20 @@ public class RecipeModel1 extends HttpServlet {
 	 */
 	public RecipeModel1() {
 		super();
+	}
+	
+	class Recipe {
+		public String recipeName;
+		public String[] ingredients;
+		public int prepTime;
+		public int cookTime;
+		
+		public Recipe (String recipeName, String[] ingredients, int prepTime, int cookTime) {
+			this.recipeName = recipeName;
+			this.ingredients = ingredients;
+			this.prepTime = prepTime;
+			this.cookTime = cookTime;
+		}
 	}
 
 	//adds recipe to list
@@ -104,8 +117,8 @@ public class RecipeModel1 extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		//grabs query from search page
-		//request.getParameter("query"); 
-		String query = "chicken";
+		String query = request.getParameter("key"); 
+		//String query = "chicken";
 
 		//interface with the API to grab search results through API URL
 		URL url = new URL("https://api.edamam.com/search?q="+query+"&app_id=4a9fd6fd&app_key=5c19fb5e5cd1a263402a46d716c31868");
@@ -158,17 +171,31 @@ public class RecipeModel1 extends HttpServlet {
 				recipeTimesList.add(Double.toString(prepTime));
 			}
 		}
-
+		
+		//grabs ingredients 
+//		ArrayList<String[]> recipeIngredientsList = new ArrayList<String[]>();
+//		String ingredients = ""; 
+//		for (int i = 0; i < parts.length; i++) {
+//			if (parts[i].contains("ingredientLines")) {
+//				String[] ingredient = parts[i].split("=");
+//				ingredients = ingredient[1];
+//				recipeIngredientsList.add(ingredients.split("\","));
+//				System.out.println(parts[i]);
+//				System.out.println(ingredient[0]);
+//			}
+//		}
+		
 		//create a HashMap of <RecipeName, Recipe Times>
+		ArrayList<Object> jsons = new ArrayList<Object>();
 		for (int i = 0; i < recipeNameList.size();i++) {
+			
+			
 			String[] times = new String[2];
 			times[0] = recipeTimesList.get(i);  //cookTime
 			times[1] = recipeTimesList.get(i+1);  //prepTime
+			
 			recipeList.put(recipeNameList.get(i), times);
 		}
-
-		out.println("<h1>" + recipeList.size() + "</h1>");
-		System.out.println(recipeList.size());
 
 		//sort results by prepTime using TreeMap object
 		//result stores the prepTime as key then pair as value
@@ -178,7 +205,6 @@ public class RecipeModel1 extends HttpServlet {
 		while(it.hasNext()) {
 			Map.Entry pair = (Map.Entry)it.next();
 			String[] times = (String[]) pair.getValue();
-			System.out.println("dfae " + Double.parseDouble(times[1]));
 			result.put(Double.parseDouble(times[1]), pair);
 		}
 		
@@ -191,12 +217,16 @@ public class RecipeModel1 extends HttpServlet {
 		}
 		
 		recipeList = filter(sortedRecipes);
-		
 		System.out.println("fav added"  +recipeList.size());
+		
+
 
 		//convert the JSON to a String to be passed to front-end
 		Gson recipeListGson = new Gson(); 
-		String recipeListGsonString = recipeListGson.toJson(recipeList);
+		
+		String recipeListGsonString = "[" + recipeListGson.toJson(recipeList) + "]";
+		
+		
 
 		//creating session storage for JSON to be accessible to other servlets
 		HttpSession session = request.getSession(true);
