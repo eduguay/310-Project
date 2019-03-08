@@ -6,7 +6,7 @@ $(document).ready(() => {
   const numOfSearch = url.searchParams.get("numOfSearch");
 
   /* display content */
-  $(".result-text").text(`Results For ${food}`);
+  $(".result-text").text(`Results for ${food}`);
   getImages(food, displayImages);
   getRestaurants(food, numOfSearch, displayRestaurants);
   getRecipes(food, numOfSearch, displayRecipes);
@@ -17,7 +17,7 @@ $(document).ready(() => {
     if (
       $(
         $(".dropdown-content").text() === undefined || ".dropdown-content"
-      ).text() === ""
+      ).text() === " "
     ) {
       alert("Please select a list first!");
     } else {
@@ -62,7 +62,7 @@ $(document).ready(() => {
     const num = url_2.searchParams.get("numOfSearch");
 
     restaurants.forEach((restaurant, index) => {
-      const restaurantDOM = `<div class="result-restaurant-item" ${
+      const restaurantDOM = `<div class="result-restaurant-item restaurant-${index}" ${
         index % 2 === 1 ? 'style="background: gray;"' : ""
       } onclick="location.href = './restaurant.html?name=${
         restaurant.name
@@ -113,7 +113,7 @@ $(document).ready(() => {
     const num = url_2.searchParams.get("numOfSearch");
 
     recipes.forEach((recipe, index) => {
-      const recipeDOM = `<div class="result-recipe-item" ${
+      const recipeDOM = `<div class="result-recipe-item recipe-${index}" ${
         index % 2 === 1 ? 'style="background: gray;"' : ""
       } onclick="location.href = './recipe.html?name=${
         recipe.name
@@ -123,7 +123,6 @@ $(document).ready(() => {
           <p class="result-recipe-item-prepTime">${recipe.prepTime}</p>
           <p class="result-recipe-item-cookTime">${recipe.cookTime}</p>
         </div>
-        <div class="result-recipe-item-right">${recipe.price}</div>
       </div>`;
 
       $(".result-recipe").append(recipeDOM);
@@ -142,6 +141,7 @@ $(document).ready(() => {
       },
       error: function(err) {
         console.log(err);
+        callback();
       }
     });
   }
